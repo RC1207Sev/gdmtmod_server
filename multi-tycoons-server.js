@@ -75,17 +75,34 @@ var ChangeMotd = (function(){
  * This will add other classes (Objects) to this main js
  */
 var fs = require('fs');
-var vm1 = require('vm');
-var vm2 = require('vm');
-var includeInThisContext = function(path, vm) {
+var vm = require('vm');
+var includeInThisContext = function(path) {
     var code = fs.readFileSync(path);
     vm.runInThisContext(code, path);
 }.bind(this);
-//includeInThisContext(__dirname+"/player.js", vm1);
-includeInThisContext(__dirname+"/room.js", vm2);
+
+includeInThisContext(__dirname+"/player.js");
+includeInThisContext(__dirname+"/room.js");
 
 var players = [ ];
-var room = [ ];
+var rooms = [ ];
+
+
+/**
+ * This function will return the room that matches the parRoom roomname.
+ * Return false if finds nothing
+ */
+var isExistingRoom = function(parRoom){
+
+	for (var i=0; i<rooms.lenght; i++){
+
+		if (rooms[i].roomname == parRoom) { return rooms[i]; }
+
+	}
+
+	return false;
+
+}
 
  
 /**
@@ -142,10 +159,12 @@ wsServer.on('request', function(request) {
 		switch(packet_in.type)
 		{
 		case 'create_room':
-		  //execute code block 1
+		  rooms.push(new room(packet_in.data));
+		  isExistingRoom(packet_in.data).addPlayer(players[i]);
 		  break;
 		case 'join_room':
-		  //execute code block 2
+		  var roomfound = isExistingRoom(packet_in.data);
+		  if (roomfound) { roomfound.addPlayer(players[i]); };
 		  break;
 		default:
 		};
