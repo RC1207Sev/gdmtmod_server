@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>WebSockets - Simple chat</title>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="./chatclient0.3.js"></script>
+
+        <script type="text/javascript">
+        function makeid()
+        {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for( var i=0; i < 5; i++ )
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return "Zeratul - Admin";
+        }
+
+        $(function() {
+                Chatclient.changeName(makeid()) || Chatclient.init();
+            })
+        </script>
+
+        <style>
+        #contentmodchat { 
+    padding:5px; 
+    background:#ddd; 
+    border-radius:5px; 
+    overflow-y: scroll;
+    border:1px solid #CCC; 
+    height: 85%; 
+    }
+
+    #input { 
+        border-radius:2px; 
+        border:1px solid #ccc;
+        margin-right:10px; 
+        width:400px;  
+    }
+    #status { 
+        width:88px; 
+        display:block; 
+        float:left; 
+        margin-top:15px; 
+    }
+    #chat {
+        width:100%; 
+        height:100%;
+    }
+        </style>
+    </head>
+    <body>
+        <div id="statusBarCustomized" class="statusBar statusBarRight" style="pointer-events: all; height: 270px">
+<div style="text-align: right;">            
+<input id="b_minimize" alt="close" src="./mods/Test Mod/html/img/minimize.png" style="width: 25px; height: 25px; "  type="image"/>
+<input id="b_maximize" alt="close" src="./mods/Test Mod/html/img/maxwindow.png" style="width: 25px; height: 25px;" type="image">
+<input id="b_close" alt="close" src="./mods/Test Mod/html/img/close.png" style="width: 25px; height: 25px; " type="image">
+</div>
+    <div id="chat">
+        <div id="contentmodchat" style="font-size: 12px; height: 200px"><p>Connecting...</p></div>
+        <input type="text" id="input" disabled="disabled" style="width:100% ; " onclick="this.focus()"/>
+    </div>
+</div>
+        
+    </body>
+</html>

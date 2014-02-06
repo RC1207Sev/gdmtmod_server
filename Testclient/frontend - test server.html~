@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>WebSockets - Simple chat</title>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="./chatclient_test0.3.js"></script>
+
+        <script type="text/javascript">
+        function makeid()
+        {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for( var i=0; i < 5; i++ )
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return "Zeratul - Admin";
+        }
+
+        $(function() {
+                Chatclient.changeName(makeid()) || Chatclient.init();
+            })
+        </script>
+
+        <style>
+        #contentmodchat { 
+    padding:5px; 
+    background:#ddd; 
+    border-radius:5px; 
+    overflow-y: scroll;
+    border:1px solid #CCC; 
+    height: 85%; 
+    }
+
+    #input { 
+        border-radius:2px; 
+        border:1px solid #ccc;
+        margin-right:10px; 
+        width:400px;  
+    }
+    #status { 
+        width:88px; 
+        display:block; 
+        float:left; 
+        margin-top:15px; 
+    }
+    #chat {
+        width:100%; 
+        height:100%;
+    }
+        </style>
+    </head>
+    <body>
+        <div id="statusBarCustomized" class="statusBar statusBarRight" style="pointer-events: all; height: 270px">
+<div style="text-align: right;">            
+<input id="b_minimize" alt="close" src="./mods/Test Mod/html/img/minimize.png" style="width: 25px; height: 25px; "  type="image"/>
+<input id="b_maximize" alt="close" src="./mods/Test Mod/html/img/maxwindow.png" style="width: 25px; height: 25px;" type="image">
+<input id="b_close" alt="close" src="./mods/Test Mod/html/img/close.png" style="width: 25px; height: 25px; " type="image">
+</div>
+    <div id="chat">
+        <div id="contentmodchat" style="font-size: 12px; height: 200px"><p>Connecting...</p></div>
+        <input type="text" id="input" disabled="disabled" style="width:100% ; " onclick="this.focus()"/>
+    </div>
+</div>
+
+		<div align="middle">
+			<h1>Test Client</h1>
+			<table cellpadding="4" class="tableMain">
+			<tbody>
+			<tr>
+				<td valign="top" style="width: 50px;">
+					Risposta Server</td>
+				<td colspan="3">
+					<textarea id="serverReply" class="defaultText defaultTextActive" placeholder="Area reserved to server's replies..." rows="10" style="width: 100%;"></textarea>
+				</td>
+			</tr>
+			
+			<tr>
+				<td></td>
+				<td colspan="2">
+					<input id="tf_create_room_name" class="defaultText defaultTextActive" value="input text field" type="text" style="width: 100%;">
+				</td>
+				<td align="right">
+					<button id="b_create_room" style="width: 80px;">Button</button>
+				</td>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td colspan="2">
+					<input id="tf_join_room_name" class="defaultText defaultTextActive" value="input text field" type="text" style="width: 100%;">
+				</td>
+				<td align="right">
+					<button id="b_join_room" style="width: 80px;">Button</button>
+				</td>
+			</tr>
+			
+			<tr>
+				<td></td>
+				<td>
+					<input id="tf_message_type" class="defaultText defaultTextActive" value="input text field" type="text" style="width: 100%;">
+				</td>
+				<td>
+					<input id="tf_message_data" class="defaultText defaultTextActive" value="input text field" type="text" style="width: 100%;">
+				</td>
+				<td align="right">
+					<button id="b_send_custom_message" style="width: 100%;">Button</button>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+
+			<button class="btn source" onclick="$.pnotify({
+						title: 'Regular Notice',
+						text: 'Check me out! I\'m a notice.'
+					});">Regular Notice</button>
+			
+		</div>
+        
+    </body>
+</html>

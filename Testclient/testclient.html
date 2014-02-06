@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Default Text Sample</title>
+		<script src="jquery.js" type="text/javascript"></script>
+		<style media="screen" type="text/css">
+			body, td, input, textarea { font-family: 'Trebuchet MS'; }
+			.tableMain { border: solid 1px #a1a1a1; background-color: #f1f1f1; }
+			.defaultText { width: 300px; }
+			.defaultTextActive { color: #a1a1a1; font-style: italic; }
+		</style>
+		<!--<script type="text/javascript">
+			window.onload = function() {
+			if (window.jQuery) {  
+				// jQuery is loaded  
+				alert("jQuery library properly loaded.");
+			} else {
+				// jQuery is not loaded
+				alert("Problem during loading jQuery library");
+			}
+			}
+		</script>-->
+
+		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/smoothness/jquery-ui.css" media="all" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="notify/jquery.pnotify.min.js"></script>
+		<script type="text/javascript" src="notify/jquery.pnotify.js"></script>
+		<link href="notify/jquery.pnotify.default.css" media="all" rel="stylesheet" type="text/css" />
+		<!-- Include this file if you are using Pines Icons. -->
+		<link href="notify/jquery.pnotify.default.icons.css" media="all" rel="stylesheet" type="text/css" />
+		
+	</head>
+	<body>
+		<div align="middle">
+			<h1>Test Client</h1>
+			<table cellpadding="4" class="tableMain">
+			<tbody>
+			<tr>
+				<td valign="top" style="width: 50px;">
+					Risposta Server</td>
+				<td colspan="3">
+					<textarea id="serverReply" class="defaultText defaultTextActive" placeholder="Area reserved to server's replies..." rows="10" style="width: 100%;"></textarea>
+				</td>
+			</tr>
+			
+			<tr>
+				<td></td>
+				<td colspan="2">
+					<input id="textfield1" class="defaultText defaultTextActive" value="input text field" type="text" style="width: 100%;">
+				</td>
+				<td align="right">
+					<button id="button1" style="width: 80px;">Button</button>
+				</td>
+			</tr>
+			
+			<tr>
+				<td></td>
+				<td>
+					<input id="textfield2" class="defaultText defaultTextActive" value="input text field" type="text" style="width: 100%;">
+				</td>
+				<td>
+					<input id="textfield3" class="defaultText defaultTextActive" value="input text field" type="text" style="width: 100%;">
+				</td>
+				<td align="right">
+					<button id="button2" style="width: 100%;">Button</button>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+
+			<button class="btn source" onclick="$.pnotify({
+						title: 'Regular Notice',
+						text: 'Check me out! I\'m a notice.'
+					});">Regular Notice</button>
+			
+		</div>
+	</body>
+	
+</html>

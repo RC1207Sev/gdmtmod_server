@@ -87,6 +87,8 @@ includeInThisContext(__dirname+"/room.js");
 var players = [ ];
 var rooms = [ ];
 
+var player_id = 0;
+
 
 /**
  * This function will return the room that matches the parRoom roomname.
@@ -94,13 +96,56 @@ var rooms = [ ];
  */
 var isExistingRoom = function(parRoom){
 
-	for (var i=0; i<rooms.lenght; i++){
+	for (var i=0; i<rooms.length; i++){
 
-		if (rooms[i].roomname == parRoom) { return rooms[i]; }
+		if (rooms[i].roomname === parRoom) { return rooms[i]; }
 
 	}
 
 	return false;
+
+}
+
+
+/**
+ * This function will return the room that matches the parRoom roomname.
+ * Return false if finds nothing
+ */
+var findPlayerByConnection = function(parConnection){
+
+	console.log("findPlayerByConnection " + parConnection + " | total players: " + players.length);
+	for (var i=0; i<players.length; i++){
+		console.log("player " + i + ": " + players[i].playername);
+		if (players[i].connection === parConnection) { return players[i]; }
+
+	}
+
+	return false;
+
+}
+
+
+/**
+ * Sends a message to a single user
+ * if no connections are specified, sends to the triggered connection
+ */
+var sendMessage = function(msgtype, msg, parConnection) {
+
+	parConnection || (parConnection = connection);
+
+	var json = JSON.stringify({ type:msgtype, data: ObjectifyString(msg)});
+        parConnection.sendUTF(json);
+
+}
+
+
+/**
+ * Adds a player to a room
+ */
+var joinRoom = function(roomName) {
+
+	var foundRoom = isExistingRoom(roomName);
+	return foundRoom && foundRoom.addPlayer(findPlayerByConnection(connection));
 
 }
 
@@ -135,11 +180,12 @@ wsServer.on('request', function(request) {
     var connection = request.accept(null, request.origin); 
     // we need to know client index to remove them on 'close' event
     var index = clients.push(connection) - 1;
-    players.push(new player());
+    players.push(new player(connection, player_id));
+    player_id++;
     var userName = false;
     var userColor = false;
  
-    console.log((new Date()) + ' Connection accepted.');
+    console.log((new Date()) + ' Connection accepted. ' + connection.remoteAddress);
  
     // send back chat history
     if (history.length > 0) {
@@ -158,13 +204,18 @@ wsServer.on('request', function(request) {
 
 		switch(packet_in.type)
 		{
-		case 'create_room':
-		  rooms.push(new room(packet_in.data));
-		  isExistingRoom(packet_in.data).addPlayer(players[i]);
+		case 'create_room': // checks if the room already exists
+		  if (isExistingRoom(packet_in.data)) {
+			  sendMessage("system_message", "room " + packet_in.data + " already exists", connection);
+		  } else { // creates the room and joins it
+			  rooms.push(new room(packet_in.data));
+			  if (joinRoom(packet_in.data)) { sendMessage("system_message", "you have joined room " + packet_in.data, connection); }
+			  else { sendMessage("system_message", "unable to find room " + packet_in.data, connection); }
+		  }
 		  break;
 		case 'join_room':
-		  var roomfound = isExistingRoom(packet_in.data);
-		  if (roomfound) { roomfound.addPlayer(players[i]); };
+		  if (joinRoom(packet_in.data)) { sendMessage("system_message", "you have joined room " + packet_in.data, connection); }
+		  else { sendMessage("system_message", "unable to find room " + packet_in.data, connection); }
 		  break;
 		default:
 		};
@@ -173,7 +224,7 @@ wsServer.on('request', function(request) {
             if (packet_in.type === 'handshake') {
                 // remember user name
                 userName = htmlEntities(packet_in.data);
-		players[i].changeName(userName);
+		findPlayerByConnection(connection).changeName(userName);
                 // get random color and send it back to the user
                 //userColor = colors.shift();
                 userColor = colors[Math.floor(Math.random()*colors.length)];
