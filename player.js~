@@ -2,7 +2,6 @@
 // This Class will handle all the information needed for each player
 
 var connection;
-var room;
 
 function player( parConnection, parId ) { 
  

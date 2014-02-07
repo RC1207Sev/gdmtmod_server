@@ -9,8 +9,8 @@ var Chatclient = {};
 
     var create_room_button = $('#b_create_room');
     var create_room_tf = $('#tf_create_room_name');
-    var join_room_button = $('#tf_join_room_name');
-    var join_room_tf = $('#b_join_room');
+    var join_room_button = $('#b_join_room');
+    var join_room_tf = $('#tf_join_room_name');
     var custom_type_tf = $('#tf_message_type');
     var custom_data_tf = $('#tf_message_data');
     var custom_message_button = $('#b_send_custom_message');
@@ -40,8 +40,8 @@ var Chatclient = {};
         input = $('#input');
     	create_room_button = $('#b_create_room');
    	create_room_tf = $('#tf_create_room_name');
-    	join_room_button = $('#tf_join_room_name');
-   	join_room_tf = $('#b_join_room');
+    	join_room_button = $('#b_join_room');
+   	join_room_tf = $('#tf_join_room_name');
     	custom_type_tf = $('#tf_message_type');
     	custom_data_tf = $('#tf_message_data');
     	custom_message_button = $('#b_send_custom_message');
@@ -268,7 +268,9 @@ var Chatclient = {};
          */
         join_room_button.click(function() {
 
-		sendMessage("join_room", join_room_tf.val());	
+		console.log("join_room_button click event");
+		sendMessage("join_room", join_room_tf.val());
+		console.log("join_room message sent");
 
         });
 
