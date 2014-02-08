@@ -147,10 +147,18 @@ var sendMessage = function(msgtype, msg, parConnection) {
 var joinRoom = function(roomName, parConnection) {
 
 	var foundRoom = isExistingRoom(roomName);
+	console.log("joinRoom: room " + roomName + " found");
 	if (foundRoom != false) { 
-		if(foundRoom.addPlayer(findPlayerByConnection(parConnection)) > 0) { return foundRoom }
-		else { return false };
+		if(foundRoom.addPlayer(findPlayerByConnection(parConnection)) > 0) { 
+			console.log("joinRoom: added player " + parConnection.remoteAddress + " to room " + roomName);
+			return foundRoom;
 		}
+		else { 
+			console.log("joinRoom: unable to add player " + parConnection.remoteAddress + " to room " + roomName);
+			return false; 
+			};
+		}
+	console.log("joinRoom: room " + roomName + " NOT found");
 	return false;
 
 }
@@ -187,6 +195,7 @@ wsServer.on('request', function(request) {
     // we need to know client index to remove them on 'close' event
     var index = clients.push(connection) - 1;
     players.push(new player(connection, player_id));
+    joinRoom("Lobby",connection);
     player_id++;
     var userName = false;
     var userColor = false;

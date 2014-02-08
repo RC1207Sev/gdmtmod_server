@@ -16,6 +16,7 @@ function room( name ) {
 
 room.prototype.addPlayer = function(player){
 	
+	console.log("addPlayer: searching for player " + player.id);
 	if (this.players_in_room.length < MAX_PLAYERS_IN_ROOM){
 		if (player.room != null) {
 			player.room.RemovePlayer("player",player);
@@ -24,6 +25,7 @@ room.prototype.addPlayer = function(player){
 		this.players_in_room.push(player);
 		return this.players_in_room.length;
 	} else {
+		console.log("addPlayer: player " + player.id + " not found");
 		return 0;
 	}
 
@@ -32,12 +34,15 @@ room.prototype.addPlayer = function(player){
 
 room.prototype.RemovePlayer = function(searchType, searchString){
 	
+	console.log("RemovePlayer: removing " + searchType);
 	var player_index = this.isPlayerInRoom(searchType, searchString);
+	console.log("RemovePlayer: player_index: " + player_index);
 	if (player_index >= 0) {
-		players_in_room[player_index].room = null;
-		players_in_room.splice(player_index - 1, 1);
+		this.players_in_room[player_index].room = null;
+		this.players_in_room.splice(player_index - 1, 1);
 		return players_in_room.length;
 	}
+	console.log("RemovePlayer: unable to find " + searchType);
 	return -1;
 
 }
